@@ -247,8 +247,6 @@ describe("Register Page", () => {
     expect(alert).toHaveTextContent(/Username is already taken/i);
   });
 
-<<<<<<< HEAD
-=======
   it("should redirect to login after success", async () => {
     const request = {
       username: "crio.do",
@@ -268,5 +266,4 @@ describe("Register Page", () => {
 
     expect(history.location.pathname).toBe("/");
   });
->>>>>>> 159730e6930a4d1620c72c92e048634728933553
 });

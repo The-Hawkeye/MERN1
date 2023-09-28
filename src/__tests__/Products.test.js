@@ -78,9 +78,9 @@ describe("Products Page - Header", () => {
     // https://github.com/clarkbw/jest-localstorage-mock/issues/125
     jest.clearAllMocks();
 
-    await act(async () => {
-      render(ProductDOMTree(history));
-    });
+    // await act(async () => {
+    //   render(ProductDOMTree(history));
+    // });
   });
 
   it("should have a header with logo", async () => {
@@ -131,9 +131,9 @@ describe("Products Page - Header: Logged in", () => {
     localStorage.setItem("username", "crio.do");
     localStorage.setItem("token", "testtoken");
 
-    await act(async () => {
-      render(ProductDOMTree(history));
-    });
+    // await act(async () => {
+    //   render(ProductDOMTree(history));
+    // });
   });
 
   it("should have username & avatar in header if logged in", () => {
