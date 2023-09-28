@@ -247,4 +247,26 @@ describe("Register Page", () => {
     expect(alert).toHaveTextContent(/Username is already taken/i);
   });
 
+<<<<<<< HEAD
+=======
+  it("should redirect to login after success", async () => {
+    const request = {
+      username: "crio.do",
+      password: "learnbydoing",
+    };
+
+    performFormInput(request);
+
+    expect(history.location.pathname).toBe("/login");
+  });
+
+  it("'back to explore' button on Header should route to products", async () => {
+    const exploreButton = screen.getByRole("button", {
+      name: /back to explore/i,
+    });
+    userEvent.click(exploreButton);
+
+    expect(history.location.pathname).toBe("/");
+  });
+>>>>>>> 159730e6930a4d1620c72c92e048634728933553
 });
