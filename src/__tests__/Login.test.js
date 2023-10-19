@@ -39,7 +39,6 @@ describe("Login Page", () => {
   beforeEach(() => {
     mock.resetHistory();
 
-    // eslint-disable-next-line testing-library/no-render-in-setup
     render(
       <SnackbarProvider
         maxSnack={1}
@@ -143,9 +142,9 @@ describe("Login Page", () => {
     expect(usernameInput).toHaveValue(request.username);
     expect(passwordInput).toHaveValue(request.password);
 
-    // await act(async () => {
-    //   userEvent.click(screen.getByText(/login to qkart/i));
-    // });
+    await act(async () => {
+      userEvent.click(screen.getByText(/login to qkart/i));
+    });
 
     const loginPostCall = mock.history.post.find(
       (req) => req.url === `${config.endpoint}/auth/login`
@@ -163,9 +162,9 @@ describe("Login Page", () => {
     expect(usernameInput).toHaveValue(request.username);
     expect(passwordInput).toHaveValue(request.password);
 
-    // await act(async () => {
-    //   userEvent.click(screen.getByText(/login to qkart/i));
-    // });
+    await act(async () => {
+      userEvent.click(screen.getByText(/login to qkart/i));
+    });
 
     const loginPostCall = mock.history.post.find(
       (req) => req.url === `${config.endpoint}/auth/login`
@@ -187,9 +186,9 @@ describe("Login Page", () => {
 
     performFormInput(request);
 
-    // await act(async () => {
-    //   userEvent.click(screen.getByText(/login to qkart/i));
-    // });
+    await act(async () => {
+      userEvent.click(screen.getByText(/login to qkart/i));
+    });
 
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent(/logged in/i);
@@ -203,9 +202,9 @@ describe("Login Page", () => {
 
     performFormInput(request);
 
-    // await act(async () => {
-    //   userEvent.click(screen.getByText(/login to qkart/i));
-    // });
+    await act(async () => {
+      userEvent.click(screen.getByText(/login to qkart/i));
+    });
 
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent(/password is incorrect/i);
@@ -219,9 +218,9 @@ describe("Login Page", () => {
 
     performFormInput(request);
 
-    // await act(async () => {
-    //   userEvent.click(screen.getByText(/login to qkart/i));
-    // });
+    await act(async () => {
+      userEvent.click(screen.getByText(/login to qkart/i));
+    });
 
     expect(window.localStorage.setItem).toHaveBeenCalledWith(
       "username",
@@ -242,9 +241,9 @@ describe("Login Page", () => {
 
     performFormInput(request);
 
-    // await act(async () => {
-    //   userEvent.click(screen.getByText(/login to qkart/i));
-    // });
+    await act(async () => {
+      userEvent.click(screen.getByText(/login to qkart/i));
+    });
 
     expect(history.location.pathname).toBe("/");
   });

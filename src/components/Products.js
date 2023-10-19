@@ -27,7 +27,7 @@ const Products = () => {
   return (
     <div>
       <Header>
-
+      <TextField id="outlined-basic"  variant="outlined" />
       </Header>
 
        <Grid container>

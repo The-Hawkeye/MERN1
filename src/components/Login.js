@@ -9,8 +9,11 @@ import Footer from "./Footer";
 import Header from "./Header";
 import "./Login.css";
 
+
 const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
+
+  let history = useHistory();
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
   /**
@@ -37,7 +40,37 @@ const Login = () => {
    * }
    *
    */
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading]= useState(false);
+  const [loggedIn, setLogin]=useState(false);
+
+
   const login = async (formData) => {
+    if(validateInput(formData))
+    {
+      let data = {
+        username:formData.username,
+        password:formData.password
+      }
+
+      try{
+        setLoading(true);
+        let res = await axios.post(`${config.endpoint}/auth/login`, data)
+        if (res)
+        history.push("/");
+        setLogin(true);
+        console.log(res.data,"sdalkd");
+        persistLogin(res.data.token, res.data.username, res.data.balance);
+        enqueueSnackbar("Logged in successfully",{ variant:"success"})
+      }catch(err){
+        if(err.response.status === 400)
+        enqueueSnackbar(err.response.data.message,{variant:"error"})
+        else{
+          enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.",{variant:"error"})
+        }
+      }
+    }
+    setLoading(false);
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Validate the input
@@ -56,6 +89,18 @@ const Login = () => {
    * -    Check that password field is not an empty value - "Password is a required field"
    */
   const validateInput = (data) => {
+    if (!data.username)
+    {
+      enqueueSnackbar("Username is a required field", {variant:"warning"})
+      return false;
+    }
+
+    if (!data.password)
+    {
+      enqueueSnackbar("Password is a required field", {variant:"warning"})
+      return false
+    }
+    return true;
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Persist user's login information
@@ -75,6 +120,10 @@ const Login = () => {
    * -    `balance` field in localStorage can be used to store the balance amount in the user's wallet
    */
   const persistLogin = (token, username, balance) => {
+
+    localStorage.setItem('token',token);
+    localStorage.setItem('username',username);
+    localStorage.setItem('balance',balance);
   };
 
   return (
@@ -84,9 +133,46 @@ const Login = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
-      <Header hasHiddenAuthButtons />
+      {loggedIn?<Header hasHiddenAuthButtons={false}/>:<Header hasHiddenAuthButtons={true}/>}
+      {/* <Header hasHiddenAuthButtons/> */}
       <Box className="content">
         <Stack spacing={2} className="form">
+        <h2 className="title">Login</h2>
+          <TextField
+            id="username"
+            label="Username"
+            variant="outlined"
+            title="Username"
+            name="username"
+            placeholder="Enter Username"
+            onChange={(e)=>{setFormData({...formData, username:e.target.value})}}
+            fullWidth
+          />
+          <TextField
+            id="password"
+            variant="outlined"
+            label="Password"
+            name="password"
+            type="password"
+            // helperText="Password must be atleast 6 characters length"
+            fullWidth
+            placeholder="Enter a password with minimum 6 characters"
+            onChange={(e)=>{setFormData({...formData, password:e.target.value})}}
+          />
+          {loading?<Box display={"flex"} justifyContent="center"><CircularProgress/></Box>:
+          <Button className="button" variant="contained" onClick={()=>{login(formData)}}>
+            Login to QKART
+           </Button>
+          }
+
+           <p className="secondary-action">
+            Don't have an account?{" "}
+             {/* <a className="link" href="#"> */}
+             <Link className="link" to="/register">
+              Register Now
+              </Link>
+          </p>
+           
         </Stack>
       </Box>
       <Footer />

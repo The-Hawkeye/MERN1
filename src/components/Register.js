@@ -12,6 +12,7 @@ import { useHistory, Link } from "react-router-dom";
 const Register = () => {
   const { enqueueSnackbar } = useSnackbar();
 
+    let history  = useHistory();
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
   /**
@@ -54,6 +55,8 @@ const Register = () => {
         setLoading(true);
         let res = await axios.post(`${config.endpoint}/auth/register`,data);
 
+        history.push("/login");
+
         if (res)
         {
           enqueueSnackbar("Registered Successfully", {variant:"success"})
@@ -68,7 +71,8 @@ const Register = () => {
     }
     catch(e)
     {
-      console.log(e.response);
+      console.log(e);
+      console.log(e.response,"res");
       enqueueSnackbar(e.response.data.message,{variant:"error"});
     }
 
@@ -178,9 +182,10 @@ const Register = () => {
            
           <p className="secondary-action">
             Already have an account?{" "}
-             <a className="link" href="#">
+             {/* <a className="link" href="#"> */}
+             <Link className="link" to="/login">
               Login here
-             </a>
+              </Link>
           </p>
         </Stack>
        
